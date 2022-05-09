@@ -1,0 +1,39 @@
+{% extends "FeedApp/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h2>
+    <p>Post: {{ post.description }} </p>
+</h2>
+<!--use post.description b/c post object is passed in context (views.py) and "description" is an attribute of the object in the models.py file-->
+<h2>
+    {% if post.image %}
+    <p><img src="{{ post.image.url}}" class="img-thumbnail" style="max-height:300px" alt="No image"><br><br></p>
+    {% else %}
+    <p></p>
+    {% endif %}
+</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for c in comments %}
+    <li>
+        <p> {{ c.text }} &nbsp -- &nbsp {{ c.username }}</p>
+        <!--for each comment on the post, display the text and the username
+                                                       use ".text" & ".username" b/c that's what the attributes are called in the model (models.py)-->
+        <!--&nsbp = hard coding a space in bootstrap-->
+    </li>
+    {% empty %}
+    <!--what to do if there are no comments yet-->
+    <li>There are no comments for this post.</li>
+    {% endfor %}
+
+    <!--below: this section dictates what will be in the comment "form" since we're not using one already setup on the forms.py file-->
+    <p><input type="text" name="comment"></p>
+    <p><button type="submit" name="btn1" value=1>Submit Comment</button></p>
+    <!--"text", "comment", "submit", "btn1" come from view.py file in def comments-->
+
+
+</form>
+{% endblock content %}

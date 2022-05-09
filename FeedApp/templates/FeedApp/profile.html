@@ -1,0 +1,25 @@
+{% extends "FeedApp/base.html" %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<!--helps with formatting and color-->
+
+{% block content %}
+
+<h1>
+    <p>My Profile:</p>
+</h1>
+<!--<h1> tag makes this text a heading-->
+
+<form action="{% url 'FeedApp:profile' %}" method='post'>
+    {% csrf_token %}
+    {{form | crispy}}
+    <!--formatting-->
+    <br><br>
+    <!--this creates extra spacing-->
+    <button name="submit" class=" btn btn-outline-primary">Update</button>
+    <!--"Update" = what will be written on the button-
+        this class of bootstrap4 will make the button blue when user hovers over it->
+
+</form>
+
+{% endblock content %}

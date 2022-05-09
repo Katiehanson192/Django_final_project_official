@@ -1,0 +1,22 @@
+{% extends "FeedApp/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h2>
+    <p>New Post:</p>
+</h2>
+<!--heading-->
+
+<form action="{% url 'FeedApp:new_post' %}" method='post' enctype='multipart/form-data'>
+    <!--enctype = for uploaded files/images to be attached to the request properly. lets files get attached to post-->
+
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <!--why is "form" needed twice-->
+
+    <br><br>
+    <!--hardcoded returns-->
+    <button name="submit" class=" btn btn-outline-primary">Post</button>
+    <!--class = when you hover over the button, it turns dark blue-->
+</form>
+{% endblock content %}

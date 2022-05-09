@@ -1,0 +1,47 @@
+{% extends "FeedApp/base.html" %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<h1>
+    <p>Posts</p>
+</h1>
+<form method="POST">
+    {% csrf_token %}
+    <table style="font-size: 25px;width: 100%;">
+        <!--width 100% = use all of screen, is adjustable-->
+
+        {% for p,c,l in zipped_list %}
+        <!--interating through posts, comments, and likes for each post at the same time-->
+        <tr style="border: 1px solid black;padding: 6px;">
+            <!--tr = table row-->
+            <td>{{p.username}}:&nbsp{{ p }} <br>
+                <!--p.username = get username of poster. can do this because "username" is under the post class in models file-->
+                <!--&nbsp = html code for a space. 
+                        this will show the username of the poster: the post content
+                        <br> = a tab-->
+                {% if p.image %}
+                <img src="{{p.image.url}}" class="img-thumbnail" style="max-height:300px" alt="">
+                {% endif %}
+                <!--if post has image, display it using "image" attribute from module file. class = makes it look like a thumbnail,
+                Limit the size of it. if no image, blank-->
+            </td>
+        </tr>
+        <tr style="border: 1px solid black;padding: 6px;">
+            <td>{{p.date_posted}}</td>
+            <!--adding a hyperlink to "Like" button, so the number increases by 1 when we like a friend's post
+                                        name is how we access it in the view.py file-->
+            <td>
+                <button type="submit" name="like" value={{p.id}} style="background-color: transparent;border: none;">
+                    Likes: &nbsp {{l}}
+                </button>
+            </td>
+            <td>Comments: &nbsp <a href="{% url 'FeedApp:comments' p.id %}">{{c}}</a></td>
+            <!--makes # of comments on post a hyperlink so we can post a comment. p.id = called post as p above, so p.id = post_id-->
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+{% endblock content %}
